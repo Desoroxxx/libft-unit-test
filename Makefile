@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: fsoares- <fsoares-@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created  2015/04/04 19:22:36 by alelievr          #+#    #+#              #
-#    Updated: 2022/10/28 14:06:58 by ladloff          ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 #################
 ##  VARIABLES  ##
 #################
@@ -71,14 +59,11 @@ WRAPNAME	=	run_test
 FRAMEWORK	=
 
 #	Compiler
-CFLAGS		=	-D TIMEOUT_MILLIS=$(TIMEOUT) -Werror -Wall -Wextra # -g3 -fsanitize=address
+CFLAGS		=	-O0 -D TIMEOUT_MILLIS=$(TIMEOUT) -Werror -Wall -Wextra # -gfull -fsanitize=address
 CSOFLAGS	=	-shared -fPIC
 CSOFLAGS2	=
 CC			=	clang
 CC_SO		=	$(CC)
-
-#	Optimization
-OPTFLAGS	=	-O2 -funroll-loops
 
 ################
 ##   COLORS   ##
@@ -182,14 +167,14 @@ $(ASSETDIR)/$(ANAME):
 $(ASSETDIR)/$(NAME): $(OBJ)
 	@$(call disp_title,Linking,$(LINK_COLOR_T));
 	@$(call exec_color, "\033[38;5;$(LINK_COLOR_T)m➤ \033[38;5;$(LINK_COLOR)m",\
-		$(CC), $(CFLAGS), $(OPTFLAGS), $(VLIBDIR), $(VLIB), $(RFRAME) $(LIBS), -o, $(ASSETDIR)/$(NAME), $(OBJ))
+		$(CC), $(CFLAGS), $(VLIBDIR), $(VLIB), $(RFRAME) $(LIBS), -o, $(ASSETDIR)/$(NAME), $(OBJ))
 
 #	Objects compilation
 $(OBJDIR)/%.o: $(SRCDIR)/%.c include/libft_test.h
 	@mkdir -p $(OBJDIR)/$(dir $<)
 	@$(call disp_title,Building,$(OBJ_COLOR_T))
 	@$(call exec_color,"\033[38;5;$(OBJ_COLOR_T)m➤ \033[0m\033[38;5;$(OBJ_COLOR)m",\
-		$(CC), $(OPTFLAGS), $(CFLAGS), $(INCFLAG), -o, $@, -c, $<)
+		$(CC), $(CFLAGS), $(INCFLAG), -o, $@, -c, $<)
 	@$(eval ALREADY_OBJ=x)
 
 #	Removing objects
@@ -233,9 +218,6 @@ run: $(NAME)
 	@echo "\033[0;1;35m➤ \033[0;38;5;$(RUN_COLOR)m./a.out ${ARGS}\033[0m"
 	@./$(NAME) ${ARGS}
 
-codesize:
-	@cat $(NORME) |grep -v '/\*' |wc -l
-
 f: libclean all
 	@rm -rf $(ASSETDIR)/$(ANAME)
 	@echo "\033[38;5;93mRUNNING TESTS:"
@@ -249,106 +231,4 @@ b: libclean all
 libft: libclean all
 	@rm -rf $(ASSETDIR)/$(ANAME)
 
-coffee:
-	@clear
-	@echo ""
-	@echo "                   ("
-	@echo "	                     )     ("
-	@echo "               ___...(-------)-....___"
-	@echo '           .-""       )    (          ""-.'
-	@echo "      .-''''|-._             )         _.-|"
-	@echo '     /  .--.|   `""---...........---""`   |'
-	@echo "    /  /    |                             |"
-	@echo "    |  |    |                             |"
-	@echo "     \  \   |                             |"
-	@echo "      '\ '\ |                             |"
-	@echo "        '\ '|                             |"
-	@echo "        _/ /\                             /"
-	@echo "       (__/  \                           /"
-	@echo '    _..---""` \                         /`""---.._'
-	@echo " .-'           \                       /          '-."
-	@echo ":               '-.__             __.-'              :"
-	@echo ':                  ) ""---...---"" (                :'
-	@echo "\'._                '"--...___...--"'              _.'"
-	@echo '   \""--..__                              __..--""/'
-	@echo "     '._     """----.....______.....----"""         _.'"
-	@echo '         ""--..,,_____            _____,,..--"""'''
-	@echo '                      """------"""'
-	@sleep 0.5
-	@clear
-	@echo ""
-	@echo "                 ("
-	@echo "	                  )      ("
-	@echo "               ___..(.------)--....___"
-	@echo '           .-""       )   (           ""-.'
-	@echo "      .-''''|-._      (       )        _.-|"
-	@echo '     /  .--.|   `""---...........---""`   |'
-	@echo "    /  /    |                             |"
-	@echo "    |  |    |                             |"
-	@echo "     \  \   |                             |"
-	@echo "      '\ '\ |                             |"
-	@echo "        '\ '|                             |"
-	@echo "        _/ /\                             /"
-	@echo "       (__/  \                           /"
-	@echo '    _..---""` \                         /`""---.._'
-	@echo " .-'           \                       /          '-."
-	@echo ":               '-.__             __.-'              :"
-	@echo ':                  ) ""---...---"" (                :'
-	@echo "\'._                '"--...___...--"'              _.'"
-	@echo '   \""--..__                              __..--""/'
-	@echo "     '._     """----.....______.....----"""         _.'"
-	@echo '         ""--..,,_____            _____,,..--"""'''
-	@echo '                      """------"""'
-	@sleep 0.5
-	@clear
-	@echo ""
-	@echo "               ("
-	@echo "	                  )     ("
-	@echo "               ___..(.------)--....___"
-	@echo '           .-""      )    (           ""-.'
-	@echo "      .-''''|-._      (       )        _.-|"
-	@echo '     /  .--.|   `""---...........---""`   |'
-	@echo "    /  /    |                             |"
-	@echo "    |  |    |                             |"
-	@echo "     \  \   |                             |"
-	@echo "      '\ '\ |                             |"
-	@echo "        '\ '|                             |"
-	@echo "        _/ /\                             /"
-	@echo "       (__/  \                           /"
-	@echo '    _..---""` \                         /`""---.._'
-	@echo " .-'           \                       /          '-."
-	@echo ":               '-.__             __.-'              :"
-	@echo ':                  ) ""---...---"" (                :'
-	@echo "\'._                '"--...___...--"'              _.'"
-	@echo '   \""--..__                              __..--""/'
-	@echo "     '._     """----.....______.....----"""         _.'"
-	@echo '         ""--..,,_____            _____,,..--"""'''
-	@echo '                      """------"""'
-	@sleep 0.5
-	@clear
-	@echo ""
-	@echo "             (         ) "
-	@echo "	              )        ("
-	@echo "               ___)...----)----....___"
-	@echo '           .-""      )    (           ""-.'
-	@echo "      .-''''|-._      (       )        _.-|"
-	@echo '     /  .--.|   `""---...........---""`   |'
-	@echo "    /  /    |                             |"
-	@echo "    |  |    |                             |"
-	@echo "     \  \   |                             |"
-	@echo "      '\ '\ |                             |"
-	@echo "        '\ '|                             |"
-	@echo "        _/ /\                             /"
-	@echo "       (__/  \                           /"
-	@echo '    _..---""` \                         /`""---.._'
-	@echo " .-'           \                       /          '-."
-	@echo ":               '-.__             __.-'              :"
-	@echo ':                  ) ""---...---"" (                :'
-	@echo "\'._                '"--...___...--"'              _.'"
-	@echo '   \""--..__                              __..--""/'
-	@echo "     '._     """----.....______.....----"""         _.'"
-	@echo '         ""--..,,_____            _____,,..--"""'''
-	@echo '                      """------"""'
-
-
-.PHONY: all clean fclean re norme codesize coffee
+.PHONY: all clean fclean re norme
